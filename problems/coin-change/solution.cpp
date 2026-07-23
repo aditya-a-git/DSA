@@ -13,7 +13,6 @@ class Solution {
         }
 
         return dp[i][amt] = min({1 + coin(coins, amt - coins[i], i, dp),
-                                 1 + coin(coins, amt - coins[i], i + 1, dp),
                                  coin(coins, amt, i + 1, dp)});
     }
 
