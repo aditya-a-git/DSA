@@ -1,5 +1,5 @@
 class LRUCache {
-    unordered_map<int, int> tab;
+    unordered_map < int, pair<int, list<int>::iterator>> tab;
     list<int> l;
     int cap, count = 0;
 
@@ -8,9 +8,10 @@ public:
 
     int get(int key) {
         if (tab.find(key) != tab.end()) {
-            l.remove(key);
+            l.erase(tab[key].second);
             l.push_back(key);
-            return tab[key];
+            tab[key].second = prev(l.end());
+            return tab[key].first;
         }
 
         return -1;
@@ -18,9 +19,10 @@ public:
 
     void put(int key, int value) {
         if (tab.find(key) != tab.end()) {
-            tab[key] = value;
+            tab[key].first = value;
             l.remove(key);
             l.push_back(key);
+            tab[key].second = prev(l.end());
             return;
         }
 
@@ -31,8 +33,8 @@ public:
             count--;
         }
 
-        tab[key] = value;
         l.push_back(key);
+        tab[key] = {value, prev(l.end())};
         count++;
     }
 };
