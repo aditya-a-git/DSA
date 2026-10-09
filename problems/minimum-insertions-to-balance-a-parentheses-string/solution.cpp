@@ -1,36 +1,27 @@
 class Solution {
 public:
     int minInsertions(string s) {
-        stack<int> st;
+        int p = 0;
         int score = 0;
 
         for (const char c : s) {
             if (c == '(') {
-                if(!st.empty() && st.top() == 1){
-                    st.pop();
+                if(p % 2 == 1){
+                    p--;
                     score++;
                 }
 
-                st.push(2);
+                p += 2;
             } else {
-                if (st.empty()) {
+                if (p == 0) {
                     score++;
-                    st.push(1);
+                    p++;
                 } else {
-                    st.top()--;
-
-                    if (st.top() == 0) {
-                        st.pop();
-                    }
+                    p--;
                 }
             }
         }
 
-        while (!st.empty()) {
-            score += st.top();
-            st.pop();
-        }
-
-        return score;
+        return score + p;
     }
 };
