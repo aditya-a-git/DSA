@@ -5,13 +5,15 @@ public:
         int n = temp.size();
         vector<int> ans(n, 0);
 
-        for (int i = 0; i < n; i++) {
-            int currtemp = temp[i];
-
-            while (!st.empty() && st.top().first < currtemp) {
-                int idx = st.top().second;
-                ans[idx] = i - idx;
+        for (int i = n - 1; i >= 0; i--) {
+            while(!st.empty() && st.top().first <= temp[i]){
                 st.pop();
+            }
+
+            if(st.empty()){
+                ans[i] = 0;
+            }else{
+                ans[i] = st.top().second - i;
             }
 
             st.push({temp[i], i});
